@@ -36,7 +36,7 @@ perl createARFF_test.pl less_motifs.txt test_data.txt
 The output from this will be test_data.arff
 
 Next, run the following command:
-perl runModelonTest.pl RF_17910_ct test_data.arff
+perl runModelonTest.pl RF_17910_ct.model test_data.arff
 
 The output will be in Output_step2.txt in the format:
 Query_Number,Probability,?,Prediction

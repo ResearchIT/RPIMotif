@@ -5,7 +5,6 @@ use warnings;
 
 my $modelFL = shift or die;
 my $testFL = shift or die;
-my $text = shift or die;
 my $outputFL = "Output_prediction_step1.txt";
 
 system("java -Xmx4096m -cp weka.jar weka.classifiers.trees.RandomForest -l $modelFL -T $testFL -p 0 -distribution > $outputFL");

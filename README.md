@@ -42,7 +42,7 @@ perl runModelonTest.pl
 ```
 
 The default output will be in Output_step2.txt in the format:
-Query_Number,Probability,?,Prediction
+>Query_Number,Probability,?,Prediction
 
 The prediction will be either "0" which means the RNA-protein pair is not predicted to interact or "1" which means the RNA-protein pair is predicted to interact.
 

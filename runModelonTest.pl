@@ -4,13 +4,14 @@ use strict;
 use warnings;
 use Getopt::Long qw(GetOptions);
 
-my $usage = "Usage: $0 --model <modelFL> --input <testFL> --output <outputFL> --heap <heapSize> --outstep2 <outputFL2>\n";
+my $usage = "Usage: $0 --model <modelFL> --input <testFL> --output <outputFL> --heap <heapSize> --outstep2 <outputFL2> --help\n";
 
 my $modelFL = 'RF_17910_ct.model';
 my $testFL = 'test_data.arff';
 my $outputFL = 'Output_prediction_step1.txt';
 my $heapSize = '4096';
 my $outputFL2 = 'Output_step2.txt';
+my $help;
 
 GetOptions(
 	'model=s' => \$modelFL,
@@ -18,8 +19,13 @@ GetOptions(
 	'output=s' => \$outputFL,
 	'heap=s' => \$heapSize,
 	'outstep2=s' => \$outputFL2,
+	'help' => \$help,
 	) or die $usage;
 
+if ($help) {
+	print $usage;
+	exit 0;
+}
 
 #validation for heap size parm
 if (!($heapSize % 8 == 0 and $heapSize >= 512 and $heapSize <= 32768)) {

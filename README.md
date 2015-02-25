@@ -31,15 +31,19 @@ To run RPIMotif-ct, you will require the following files, as well as Perl:
 (v) runModelonTest.pl
 
 You first need to create a test arff file with your query RNA-protein pairs. The format in which the data should be provided is shown in test_data.txt. Run the following command to generate an arff file:
-perl createARFF_test.pl less_motifs.txt test_data.txt
-
-The output from this will be test_data.arff
+```
+perl createARFF_test.pl
+```
+The default output from this will be test_data.arff
 
 Next, run the following command:
-perl runModelonTest.pl RF_17910_ct.model test_data.arff
+```
+perl runModelonTest.pl 
+```
 
-The output will be in Output_step2.txt in the format:
+The default output will be in Output_step2.txt in the format:
 Query_Number,Probability,?,Prediction
 
 The prediction will be either "0" which means the RNA-protein pair is not predicted to interact or "1" which means the RNA-protein pair is predicted to interact.
 
+You may optionally pass --help to receive full usage information, including optional command line parameters.

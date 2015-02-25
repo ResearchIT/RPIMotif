@@ -6,19 +6,27 @@ use List::Util qw[min max];
 use warnings;
 use Getopt::Long qw(GetOptions);
 
-my $usage = "Usage: $0 --motif <Interaction_motifs> --input <Test_data> --output <output_filename> --header <arffHeader_filename>\n";
+my $usage = "Usage: $0 --motif <Interaction_motifs> --input <Test_data> --output <output_filename> --header <arffHeader_filename> --help\n";
 
 my $infile1 = 'less_motifs.txt';
 my $infile2 = 'test_data.txt';
 my $outf = 'test_data.arff';
 my $arffHeader = 'arffHeaderP3R4';
+my $help;
 
 GetOptions(
 	'motif=s' => \$infile1,
 	'input=s' => \$infile2,
 	'output=s' => \$outf,
 	'header=s' => \$arffHeader,
+	'help' => \$help,
 	) or die $usage;
+
+
+if ($help) {
+	print $usage;
+	exit 0;
+}
 
 #open file to output stuff to
 open(OUT,">$outf");

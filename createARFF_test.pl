@@ -1,16 +1,25 @@
 #!/usr/bin/perl
-#perl createARFF_test.pl <Interaction_motifs> <Test_data>
+#perl createARFF_test.pl <Interaction_motifs> <Test_data> <output_filename> <arffHeader_filename>
 # create features from motifs (RPIMs), and conjoint triads (Muppirala et al. 2011)
 use strict;
 use List::Util qw[min max];
-#use warnings;
+use warnings;
+use Getopt::Long qw(GetOptions);
 
-my $usage = "perl createARFF_test.pl <Interaction_motifs> <Test_data> <text>\n";
-my $infile1 = shift or die $usage;
-my $infile2 = shift or die $usage;
+my $usage = "Usage: $0 --motif <Interaction_motifs> --input <Test_data> --output <output_filename> --header <arffHeader_filename>\n";
 
-#name of arff file created from query data
-my $outf = "test_data.arff";
+my $infile1 = 'less_motifs.txt';
+my $infile2 = 'test_data.txt';
+my $outf = 'test_data.arff';
+my $arffHeader = 'arffHeaderP3R4';
+
+GetOptions(
+	'motif=s' => \$infile1,
+	'input=s' => \$infile2,
+	'output=s' => \$outf,
+	'header=s' => \$arffHeader,
+	) or die $usage;
+
 #open file to output stuff to
 open(OUT,">$outf");
 
@@ -25,7 +34,7 @@ my $featurelength = $length + 343 + 256;
 print OUT "\@relation interactions\n";
 print OUT "\n";
 #attributes related to conjoint triad
-open(IN,"<arffHeaderP3R4");
+open(IN,$arffHeader);
 while(my $line = <IN>){
 	chomp($line);
 	print OUT "$line\n";
@@ -68,21 +77,21 @@ our %rnaGroups = (
 		   'A' => 0,
 		   'U' => 1,
 		   'C' => 2,
-		   'G' => 3
-		  );
+		   'G' => 3);
 
 #open file with query RNA-protein pairs
 open(IN,$infile2) or die $!;
 while(my $line = <IN>){
 	chomp($line);
-	print "Creating arff file\n";
+	#print "Creating arff file\n";
+
 	if(substr($line,0,1) eq ">"){
 		$line = <IN>;
 		chomp($line);
 		our $protein = $line;
 		chomp($protein);
 		our $plength = length($protein);
-		my $ppattern = "/([^AGVILFPYMTSHNQWRKDEC])/";
+		my $ppattern = "([^AGVILFPYMTSHNQWRKDEC])";
 		$protein =~ s/$ppattern//g;
 		my @pseq = split(//,$protein);
 		chomp(@pseq);
@@ -90,7 +99,7 @@ while(my $line = <IN>){
 		chomp($line);
 		our $rna = $line;
 		$rna =~ s/T/U/g;
-		my $rpattern = "/([^AUCG])/";
+		my $rpattern = "([^AUCG])";
 		$rna =~ s/$rpattern//g;
 		chomp($rna);
 		our $rlength = length($rna);
@@ -119,7 +128,7 @@ while(my $line = <IN>){
 			print OUT "$i $output_p{$i},";
 		}
 		my %output_r = ();
-		for (my $i = 0; $i < scalar (@rseq) - 3; ++$i){
+		for (my $i = 0; $i < scalar(@rseq) - 3; ++$i){
 			my $key = $rnaGroups{$rseq[$i]} * 4 * 4 * 4 + 
 			$rnaGroups{$rseq[$i + 1]} * 4 * 4 +
 			$rnaGroups{$rseq[$i + 2]} * 4     +

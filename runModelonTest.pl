@@ -1,13 +1,32 @@
 #!/usr/bin/perl
-#perl runModelonTest.pl <model file> <testfile in arff format>
+#perl runModelonTest.pl --model <modelFL> --input <testFL> --output <outputFL> --heap <heapSize> --outstep2 <outputFL2>
 use strict;
 use warnings;
+use Getopt::Long qw(GetOptions);
 
-my $modelFL = shift or die;
-my $testFL = shift or die;
-my $outputFL = "Output_prediction_step1.txt";
+my $usage = "Usage: $0 --model <modelFL> --input <testFL> --output <outputFL> --heap <heapSize> --outstep2 <outputFL2>\n";
 
-system("java -Xmx4096m -cp weka.jar weka.classifiers.trees.RandomForest -l $modelFL -T $testFL -p 0 -distribution > $outputFL");
+my $modelFL = 'RF_17910_ct.model';
+my $testFL = 'test_data.arff';
+my $outputFL = 'Output_prediction_step1.txt';
+my $heapSize = '4096';
+my $outputFL2 = 'Output_step2.txt';
+
+GetOptions(
+	'model=s' => \$modelFL,
+	'input=s' => \$testFL,
+	'output=s' => \$outputFL,
+	'heap=s' => \$heapSize,
+	'outstep2=s' => \$outputFL2,
+	) or die $usage;
+
+
+#validation for heap size parm
+if (!($heapSize % 8 == 0 and $heapSize >= 512 and $heapSize <= 32768)) {
+	$heapSize = '4096';
+}
+
+system("java -Xmx" . $heapSize . "m -cp weka.jar weka.classifiers.trees.RandomForest -l $modelFL -T $testFL -p 0 -distribution > $outputFL");
 
 open(F,$outputFL) or die $!;
 our @prediction;
@@ -31,8 +50,8 @@ foreach (<F>){
 	}
 }
 close(F);
-my $file = "Output_step2.txt";
-open(OUT,">$file");
+
+open(OUT,">$outputFL2");
 my $count = 0;
 my $i = 0;
 foreach my $val (@prediction){

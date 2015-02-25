@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-#perl createARFF_test.pl <Interaction_motifs> <Test_data> <output_filename> <arffHeader_filename>
+#perl createARFF_test.pl --motif <Interaction_motifs> --input <Test_data> --output <output_filename> --header <arffHeader_filename>
 # create features from motifs (RPIMs), and conjoint triads (Muppirala et al. 2011)
 use strict;
 use List::Util qw[min max];
@@ -83,7 +83,6 @@ our %rnaGroups = (
 open(IN,$infile2) or die $!;
 while(my $line = <IN>){
 	chomp($line);
-	#print "Creating arff file\n";
 
 	if(substr($line,0,1) eq ">"){
 		$line = <IN>;
@@ -91,7 +90,7 @@ while(my $line = <IN>){
 		our $protein = $line;
 		chomp($protein);
 		our $plength = length($protein);
-		my $ppattern = "([^AGVILFPYMTSHNQWRKDEC])";
+		my $ppattern = "[^AGVILFPYMTSHNQWRKDEC]";
 		$protein =~ s/$ppattern//g;
 		my @pseq = split(//,$protein);
 		chomp(@pseq);
@@ -99,7 +98,7 @@ while(my $line = <IN>){
 		chomp($line);
 		our $rna = $line;
 		$rna =~ s/T/U/g;
-		my $rpattern = "([^AUCG])";
+		my $rpattern = "[^AUCG]";
 		$rna =~ s/$rpattern//g;
 		chomp($rna);
 		our $rlength = length($rna);
@@ -179,6 +178,6 @@ while(my $line = <IN>){
 	}
 }
 close(IN);
-print "\n";
+
 close(OUT);
 

@@ -8,10 +8,10 @@ use Getopt::Long qw(GetOptions);
 
 my $usage = "Usage: $0 --motif <Interaction_motifs> --input <Test_data> --output <output_filename> --header <arffHeader_filename> --help\n";
 
-my $infile1 = 'less_motifs.txt';
-my $infile2 = 'test_data.txt';
-my $outf = 'test_data.arff';
-my $arffHeader = 'arffHeaderP3R4';
+my $infile1 = '/Users/baber/rpimotif/RPIMotif/less_motifs.txt';
+my $infile2 = '/Users/baber/rpimotif/RPIMotif/test_data.txt';
+my $outf = '/Users/baber/rpimotif/RPIMotif/results/test_data.arff';
+my $arffHeader = '/Users/baber/rpimotif/RPIMotif/arffHeaderP3R4';
 my $help;
 
 GetOptions(

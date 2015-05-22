@@ -4,13 +4,14 @@ use strict;
 use warnings;
 use Getopt::Long qw(GetOptions);
 
-my $usage = "Usage: $0 --model <modelFL> --input <testFL> --output <outputFL> --heap <heapSize> --outstep2 <outputFL2> --help\n";
+my $usage = "Usage: $0 --model <modelFL> --input <testFL> --output <outputFL> --heap <heapSize> --outstep2 <outputFL2> --wekapath <wekaFL> --help\n";
 
-my $modelFL = 'RF_17910_ct.model';
-my $testFL = 'test_data.arff';
-my $outputFL = 'Output_prediction_step1.txt';
+my $modelFL = '/Users/baber/rpimotif/RPIMotif/RF_17910_ct.model';
+my $testFL = '/Users/baber/rpimotif/RPIMotif/results/test_data.arff';
+my $outputFL = '/Users/baber/rpimotif/RPIMotif/Output_prediction_step1.txt';
 my $heapSize = '4096';
-my $outputFL2 = 'Output_step2.txt';
+my $outputFL2 = '/Users/baber/rpimotif/RPIMotif/results/Output_step2.txt';
+my $wekaFL = '/Users/baber/rpimotif/RPIMotif/weka.jar';
 my $help;
 
 GetOptions(
@@ -19,6 +20,7 @@ GetOptions(
 	'output=s' => \$outputFL,
 	'heap=s' => \$heapSize,
 	'outstep2=s' => \$outputFL2,
+	'wekapath=s' => \$wekaFL,
 	'help' => \$help,
 	) or die $usage;
 
@@ -32,7 +34,7 @@ if (!($heapSize % 8 == 0 and $heapSize >= 512 and $heapSize <= 32768)) {
 	$heapSize = '4096';
 }
 
-system("java -Xmx" . $heapSize . "m -cp weka.jar weka.classifiers.trees.RandomForest -l $modelFL -T $testFL -p 0 -distribution > $outputFL");
+system("/usr/bin/java -Xmx" . $heapSize . "m -cp " . $wekaFL . " weka.classifiers.trees.RandomForest -l $modelFL -T $testFL -p 0 -distribution > $outputFL");
 
 open(F,$outputFL) or die $!;
 our @prediction;

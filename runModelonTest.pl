@@ -6,12 +6,12 @@ use Getopt::Long qw(GetOptions);
 
 my $usage = "Usage: $0 --model <modelFL> --input <testFL> --output <outputFL> --heap <heapSize> --outstep2 <outputFL2> --wekapath <wekaFL> --help\n";
 
-my $modelFL = '/Users/baber/rpimotif/RPIMotif/RF_17910_ct.model';
-my $testFL = '/Users/baber/rpimotif/RPIMotif/results/test_data.arff';
-my $outputFL = '/Users/baber/rpimotif/RPIMotif/Output_prediction_step1.txt';
+my $modelFL = '/opt/app-root/src/RF_17910_ct.model';
+my $testFL = '/opt/app-root/src/results/test_data.arff';
+my $outputFL = '/opt/app-root/src/Output_prediction_step1.txt';
 my $heapSize = '4096';
-my $outputFL2 = '/Users/baber/rpimotif/RPIMotif/results/Output_step2.txt';
-my $wekaFL = '/Users/baber/rpimotif/RPIMotif/weka.jar';
+my $outputFL2 = '/opt/app-root/src/results/Output_step2.txt';
+my $wekaFL = '/opt/app-root/src/weka.jar';
 my $help;
 
 GetOptions(
@@ -34,7 +34,7 @@ if (!($heapSize % 8 == 0 and $heapSize >= 512 and $heapSize <= 32768)) {
 	$heapSize = '4096';
 }
 
-system("/usr/bin/java -Xmx" . $heapSize . "m -cp " . $wekaFL . " weka.classifiers.trees.RandomForest -l $modelFL -T $testFL -p 0 -distribution > $outputFL");
+system("java -Xmx" . $heapSize . "m -cp " . $wekaFL . " weka.classifiers.trees.RandomForest -l $modelFL -T $testFL -p 0 -distribution > $outputFL");
 
 open(F,$outputFL) or die $!;
 our @prediction;

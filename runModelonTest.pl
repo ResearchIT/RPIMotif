@@ -6,12 +6,12 @@ use Getopt::Long qw(GetOptions);
 
 my $usage = "Usage: $0 --model <modelFL> --input <testFL> --output <outputFL> --heap <heapSize> --outstep2 <outputFL2> --wekapath <wekaFL> --help\n";
 
-my $modelFL = '/opt/app-root/src/RF_17910_ct.model';
-my $testFL = '/opt/app-root/src/results/test_data.arff';
-my $outputFL = '/opt/app-root/src/Output_prediction_step1.txt';
+my $modelFL = '/deployments/RF_17910_ct.model';
+my $testFL = '/deployments/results/test_data.arff';
+my $outputFL = '/deployments/Output_prediction_step1.txt';
 my $heapSize = '4096';
-my $outputFL2 = '/opt/app-root/src/results/Output_step2.txt';
-my $wekaFL = '/opt/app-root/src/weka.jar';
+my $outputFL2 = '/deployments/results/Output_step2.txt';
+my $wekaFL = '/deployments/weka.jar';
 my $help;
 
 GetOptions(

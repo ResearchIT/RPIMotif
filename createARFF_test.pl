@@ -8,10 +8,10 @@ use Getopt::Long qw(GetOptions);
 
 my $usage = "Usage: $0 --motif <Interaction_motifs> --input <Test_data> --output <output_filename> --header <arffHeader_filename> --help\n";
 
-my $infile1 = '/opt/app-root/src/less_motifs.txt';
-my $infile2 = '/opt/app-root/src/test_data.txt';
-my $outf = '/opt/app-root/src/results/test_data.arff';
-my $arffHeader = '/opt/app-root/src/arffHeaderP3R4';
+my $infile1 = '/deployments/less_motifs.txt';
+my $infile2 = '/deployments/test_data.txt';
+my $outf = '/deployments/results/test_data.arff';
+my $arffHeader = '/deployments/arffHeaderP3R4';
 my $help;
 
 GetOptions(
@@ -80,7 +80,7 @@ our %proteinGroups = (
 		       'D' => 5,
 		       'E' => 5,
 		       'C' => 6 );
-	
+
 our %rnaGroups = (
 		   'A' => 0,
 		   'U' => 1,
@@ -117,8 +117,8 @@ while(my $line = <IN>){
 		#Usha's conjoint triads
 		my %output_p = ();
 		for (my $i = 0; $i < scalar(@pseq) - 2; ++$i){
-			my $key = $proteinGroups{$pseq[$i]} * 7 * 7 + 
-			$proteinGroups{$pseq[$i + 1]} * 7  + 
+			my $key = $proteinGroups{$pseq[$i]} * 7 * 7 +
+			$proteinGroups{$pseq[$i + 1]} * 7  +
 			$proteinGroups{$pseq[$i + 2]};
 			$output_p{$key}++;
 		}
@@ -129,14 +129,14 @@ while(my $line = <IN>){
 		}
 		my $minimum = min(values %output_p);
 		my $maximum = max(values %output_p);
-		#normalization step		
-		for (my $i = 0; $i < 343; ++$i){	
+		#normalization step
+		for (my $i = 0; $i < 343; ++$i){
 			$output_p{$i} = ($output_p{$i} - $minimum)/$maximum;
 			print OUT "$i $output_p{$i},";
 		}
 		my %output_r = ();
 		for (my $i = 0; $i < scalar(@rseq) - 3; ++$i){
-			my $key = $rnaGroups{$rseq[$i]} * 4 * 4 * 4 + 
+			my $key = $rnaGroups{$rseq[$i]} * 4 * 4 * 4 +
 			$rnaGroups{$rseq[$i + 1]} * 4 * 4 +
 			$rnaGroups{$rseq[$i + 2]} * 4     +
 			$rnaGroups{$rseq[$i + 3]};
@@ -155,7 +155,7 @@ while(my $line = <IN>){
 			$output_r{$i} = ($output_r{$i} - $minimum)/$maximum;
 			print OUT "$i $output_r{$i},";
 		}
-		
+
 		#####################################################################
 		our %protein_index = ();
 		our %rna_index = ();
